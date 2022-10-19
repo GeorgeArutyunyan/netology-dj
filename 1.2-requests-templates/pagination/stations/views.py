@@ -11,8 +11,6 @@ with open(BUS_STATION_CSV, encoding='utf-8') as file:
         DATA.append({'Name': i['Name'], 'Street': i['Street'], 'District': i['District']})
 
 
-
-
 def index(request):
     return redirect(reverse('bus_stations'))
 
