@@ -19,15 +19,19 @@ class StockSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Stock
-        fields = ['adress', 'products']
+        fields = ['id', 'adress', 'products', 'positions']
 
     def create(self, validated_data):
 
         positions = validated_data.pop('positions')
         stock = super().create(validated_data)
         for item in positions:
-            item['stock'] = stock
-            StockProduct.objects.create(**item)
+            StockProduct.objects.create(
+                stock=stock,
+                product=item.get('product'),
+                quantity=item.get('quantity'),
+                price=item.get('price')
+            )
         return stock
 
     def update(self, instance, validated_data):
@@ -36,6 +40,10 @@ class StockSerializer(serializers.ModelSerializer):
         stock = super().update(instance, validated_data)
 
         for item in positions:
-            item['stock'] = stock
-            StockProduct.ojbects.update_or_create(**item)
+            StockProduct.ojbects.update_or_create(
+                prodcut=item.get('product'),
+                quantity=item.get('quantity'),
+                defualt={'price': item.get['price'],
+                         'quantity': item.get['quantity']}
+            )
         return stock
