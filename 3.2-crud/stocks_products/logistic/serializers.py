@@ -41,9 +41,9 @@ class StockSerializer(serializers.ModelSerializer):
 
         for item in positions:
             StockProduct.ojbects.update_or_create(
-                prodcut=item.get('product'),
+                product=item.get('product'),
                 quantity=item.get('quantity'),
-                defualt={'price': item.get['price'],
+                defaults={'price': item.get['price'],
                          'quantity': item.get['quantity']}
             )
         return stock
